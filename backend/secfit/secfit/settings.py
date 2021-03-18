@@ -111,9 +111,9 @@ if is_prod:
 
 
 # CORS Policy
-CORS_ORIGIN_ALLOW_ALL = (
-    True
-)
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8080'
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
