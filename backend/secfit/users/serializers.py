@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, password_validation
-from users.models import Offer, AthleteFile
+from users.models import Offer, AthleteFile, User
 from django import forms
 
 
@@ -29,14 +29,34 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         password = data.get("password")
         password1 = data.get("password1")
+        username = data.get("username") 
 
+        user = User(username=username)
+
+        #Check that password contain upper and lower case
+        no_upper = True
+        no_lower = True
+
+        for i in password:
+            if i.isupper():
+                no_lower = False
+            break
+
+        for i in password:
+            if i.islower():
+                no_lower = False
+            break
+            
         try:
-            password_validation.validate_password(password)
+            password_validation.validate_password(password, user=user)
         except forms.ValidationError as error:
             raise serializers.ValidationError(error.messages)
-
         if password != password1:
             raise serializers.ValidationError("Passwords must match!")
+        if no_upper:
+            raise serializers.ValidationError("Passwords must contain at least on characher that is uppercase!")
+        if no_lower:
+            raise serializers.ValidationError("Passwords must contain at least on characher that is lowercase!")
 
         return value
 
