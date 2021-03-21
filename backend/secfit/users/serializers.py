@@ -33,19 +33,18 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         user = User(username=username)
 
-        #Check that password contain upper and lower case
         no_upper = True
         no_lower = True
 
         for i in password:
             if i.isupper():
-                no_lower = False
-            break
+                no_upper = False
+                break
 
         for i in password:
             if i.islower():
                 no_lower = False
-            break
+                break
             
         try:
             password_validation.validate_password(password, user=user)
@@ -57,17 +56,27 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError("Passwords must contain at least on characher that is uppercase!")
         if no_lower:
             raise serializers.ValidationError("Passwords must contain at least on characher that is lowercase!")
-
+        
         return value
 
+    def validate_username(self, value):
+        data = self.get_initial()
+        username = data.get("username") 
+
+        if len(username) < 5: 
+                raise serializers.ValidationError("This username is too short. It must contain at least 5 characters.")
+
+        return value
+    
     def create(self, validated_data):
         username = validated_data["username"]
         email = validated_data["email"]
         password = validated_data["password"]
+
         user_obj = get_user_model()(username=username, email=email)
         user_obj.set_password(password)
         user_obj.save()
-
+        
         return user_obj
 
 
