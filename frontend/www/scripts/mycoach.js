@@ -124,20 +124,20 @@ async function fileClickLink(event, fileLink) {
     .then((x) => showFile(x, fileLink));
 }
 
-// function showFile(blob, fileLink) {
-//   // Need to create blob object
-//   // otherwise only chrome works
-//   var newBlob = new Blob([blob]);
+function showFile(blob, fileLink) {
+  // Need to create blob object
+  // otherwise only chrome works
+  var newBlob = new Blob([blob]);
 
-//   const data = window.URL.createObjectURL(newBlob);
-//   var urllink = document.createElement("a");
-//   urllink.href = data;
-//   let pathArray = fileLink.split("/");
-//   let text = pathArray[pathArray.length - 1];
-//   urllink.download = text;
-//   urllink.click();
-//   // may not work in firefox
-// }
+  const data = window.URL.createObjectURL(newBlob);
+  var urllink = document.createElement("a");
+  urllink.href = data;
+  let pathArray = fileLink.split("/");
+  let text = pathArray[pathArray.length - 1];
+  urllink.download = text;
+  urllink.click();
+  // may not work in firefox
+}
 
 async function displayFiles() {
   let user = await getCurrentUser();
