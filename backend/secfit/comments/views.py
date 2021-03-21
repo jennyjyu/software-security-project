@@ -7,6 +7,8 @@ from workouts.permissions import IsOwner, IsReadOnly
 from comments.serializers import CommentSerializer, LikeSerializer
 from django.db.models import Q
 from rest_framework.filters import OrderingFilter
+from django.utils.html import escape
+
 
 # Create your views here.
 class CommentList(
@@ -22,6 +24,8 @@ class CommentList(
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        escaped = escape(request.data["content"])
+        request.data["content"] = escaped
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
