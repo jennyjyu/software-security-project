@@ -5,8 +5,9 @@ from django import forms
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    password = serializers.CharField(style={"input_type": "password"}, write_only=True)
-    password1 = serializers.CharField(style={"input_type": "password"}, write_only=True)
+    #Endret til password 1 og password 2 i hele denne og serializers.html fordi det er dette forms i django forventet 
+    password1 = serializers.CharField(style={"input_type": "password"}, write_only=True)  
+    password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
 
     class Meta:
         model = get_user_model()
@@ -15,8 +16,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "id",
             "email",
             "username",
-            "password",
             "password1",
+            "password2",
             "athletes",
             "coach",
             "workouts",
@@ -27,8 +28,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     def validate_password(self, value):
         data = self.get_initial()
 
-        password = data.get("password")
-        password1 = data.get("password1")
+        password = data.get("password1")
+        password1 = data.get("password2")
 
         try:
             password_validation.validate_password(password)
@@ -57,7 +58,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         user_obj = get_user_model()(username=username, email=email)
         user_obj.set_password(password)
         user_obj.save()
-
+        
         return user_obj
 
 

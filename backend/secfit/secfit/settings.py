@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "comments.apps.CommentsConfig",
     "corsheaders",
-    "verify_email",
 ]
 
 MIDDLEWARE = [
@@ -79,7 +78,7 @@ ROOT_URLCONF = "secfit.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'users' / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -151,7 +150,4 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "users.User"
-
-VERIFICATION_SUCCESS_TEMPLATE = None
-
 DEBUG = True
