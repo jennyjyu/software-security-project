@@ -16,7 +16,7 @@
     <allow-intent href="*" />
     <allow-intent href="geo:*" />
 
-    <access origin="*" />
+    <access origin="localhost" subdomains="true" />
     <allow-navigation href="*" />
 
     <hook type="after_prepare" src="scripts/appAfterPrepare.js" />
