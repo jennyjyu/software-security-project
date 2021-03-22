@@ -278,7 +278,8 @@ async function createComment(workoutid) {
 
     let response = await sendRequest("POST", `${HOST}/api/comments/`, body);
     if (response.ok) {
-        addComment(sessionStorage.getItem("username"), content, "Now", false);
+        let json_response = await response.json()
+        addComment(sessionStorage.getItem("username"), json_response["content"], "Now", false);
     } else {
         let data = await response.json();
         let alert = createAlert("Failed to create comment!", data);
