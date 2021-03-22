@@ -1,5 +1,6 @@
 from rest_framework import permissions
 from django.contrib.auth import get_user_model
+from users.models import Offer
 
 
 class IsCurrentUser(permissions.BasePermission):
@@ -34,3 +35,11 @@ class IsCoach(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return request.user == obj.athlete.coach
+
+
+
+class IsRecipient(permissions.BasePermission):
+    """Checks whether the requesting user is the recipient of the offer."""
+
+    def has_object_permission(self, request, view, obj):
+        return obj.recipient == request.user
