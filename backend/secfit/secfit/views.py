@@ -56,6 +56,19 @@ class MediaDetail(
 
 
 
+class AthletheMediaDetail(
+    generics.GenericAPIView,
+):
+     permission_classes = [permissions.IsAuthenticated & (IsAthlete | IsCoach)]
+
+    def get(self, request, path, document_root, *args, **kwargs):
+        return self.protected_serve(request, path, document_root)
+
+
+    def protected_serve(self, request, path, document_root=None, show_indexes=False):
+        return serve(request, path, document_root, show_indexes)
+
+
 
 
 
