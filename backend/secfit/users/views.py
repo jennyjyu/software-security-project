@@ -22,6 +22,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from users.permissions import IsCurrentUser, IsAthlete, IsCoach
 from workouts.permissions import IsOwner, IsReadOnly
+from verify_email.email_handler import send_verification_email
+from users.serializers import UserSerializer
 
 # Create your views here.
 class UserList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
@@ -32,6 +34,10 @@ class UserList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericA
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        form = UserSerializer
+        if form.is_valid():
+            inactive_user = send_verification_email(request, form)
+            
         return self.create(request, *args, **kwargs)
 
     def get_queryset(self):

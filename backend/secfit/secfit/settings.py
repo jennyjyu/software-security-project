@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "comments.apps.CommentsConfig",
     "corsheaders",
+    "verify_email",
 ]
 
 MIDDLEWARE = [
@@ -150,5 +151,7 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "users.User"
+
+VERIFICATION_SUCCESS_TEMPLATE = None
 
 DEBUG = True

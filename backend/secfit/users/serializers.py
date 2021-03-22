@@ -40,6 +40,16 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         return value
 
+    def validate_email(self, value):
+        data = self.get_initial()
+
+        email = data.get("email")
+
+        if not email:
+            raise serializers.ValidationError("Enter a valid email address.")
+
+        return value 
+
     def create(self, validated_data):
         username = validated_data["username"]
         email = validated_data["email"]

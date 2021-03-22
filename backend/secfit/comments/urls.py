@@ -8,4 +8,5 @@ urlpatterns = [
     path("api/comments/<int:pk>/", CommentDetail.as_view(), name="comment-detail"),
     path("api/likes/", LikeList.as_view(), name="like-list"),
     path("api/likes/<int:pk>/", LikeDetail.as_view(), name="like-detail"),
+    path('verification/', include('verify_email.urls')),
 ]
