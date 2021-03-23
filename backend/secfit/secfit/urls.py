@@ -17,10 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("workouts.urls")),
+
+
+    path('accounts/', include('django.contrib.auth.urls')),
+    # https://docs.djangoproject.com/en/3.1/topics/auth/default/
+    # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
