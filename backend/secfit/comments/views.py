@@ -3,7 +3,7 @@ from rest_framework import generics, mixins
 from comments.models import Comment, Like
 from rest_framework import permissions
 from comments.permissions import IsCommentVisibleToUser
-from workouts.permissions import IsOwner, IsReadOnly, IsCoachAndVisibleToCoach, IsPublic
+from workouts.permissions import IsOwner, IsReadOnly, IsCoachOfWorkoutAndVisibleToCoach, IsCoachOfReferencedWorkoutAndVisibleToCoach, IsOwnerOfWorkout
 from comments.serializers import CommentSerializer, LikeSerializer
 from django.db.models import Q
 from rest_framework.filters import OrderingFilter
@@ -15,11 +15,9 @@ class CommentList(
     mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
 ):
     # queryset = Comment.objects.all()
+    permission_classes = [permissions.IsAuthenticated & (IsOwnerOfWorkout | IsCoachOfReferencedWorkoutAndVisibleToCoach)]
     serializer_class = CommentSerializer
-    permission_classes = [
-        permissions.IsAuthenticated
-        & (IsOwner | (IsReadOnly & (IsCoachAndVisibleToCoach | IsPublic)))
-    ]
+
     filter_backends = [OrderingFilter]
     ordering_fields = ["timestamp"]
 
@@ -67,10 +65,9 @@ class CommentDetail(
     generics.GenericAPIView,
 ):
     queryset = Comment.objects.all()
+    permission_classes = [permissions.IsAuthenticated & (IsOwnerOfWorkout | IsCoachOfReferencedWorkoutAndVisibleToCoach)]
+
     serializer_class = CommentSerializer
-    permission_classes = [
-        permissions.IsAuthenticated & IsCommentVisibleToUser & (IsOwner | IsReadOnly)
-    ]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
