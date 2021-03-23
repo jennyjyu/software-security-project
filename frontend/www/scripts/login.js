@@ -56,7 +56,7 @@ window.onload = function () {
 };
 
 async function startResetPassword(event) {
-  window.location.replace("http://localhost:9090/accounts/password_reset/");
+  window.location.replace("https://localhost:9090/accounts/password_reset/");
 }
 
 document

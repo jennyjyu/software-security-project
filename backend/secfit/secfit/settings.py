@@ -140,7 +140,7 @@ if is_prod:
 
 # CORS Policy
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:9090'
+    'https://localhost:9090'
 ]
 
 # Internationalization
