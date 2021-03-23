@@ -25,7 +25,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "athlete_files",
         ]
 
-    def validate_password(self, value):
+    def validate_password1(self, value):
         data = self.get_initial()
 
         password = data.get("password1")
