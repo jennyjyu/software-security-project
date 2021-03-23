@@ -5,8 +5,9 @@ from django import forms
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    password = serializers.CharField(style={"input_type": "password"}, write_only=True)
-    password1 = serializers.CharField(style={"input_type": "password"}, write_only=True)
+    #Endret til password 1 og password 2 i hele denne og serializers.html fordi det er dette forms i django forventet 
+    password1 = serializers.CharField(style={"input_type": "password"}, write_only=True)  
+    password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
 
     class Meta:
         model = get_user_model()
@@ -15,8 +16,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "id",
             "email",
             "username",
-            "password",
             "password1",
+            "password2",
             "athletes",
             "coach",
             "workouts",
@@ -24,11 +25,11 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "athlete_files",
         ]
 
-    def validate_password(self, value):
+    def validate_password1(self, value):
         data = self.get_initial()
 
-        password = data.get("password")
-        password1 = data.get("password1")
+        password = data.get("password1")
+        password1 = data.get("password2")
         username = data.get("username") 
 
         user = User(username=username)
@@ -58,6 +59,16 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError("Passwords must contain at least on characher that is lowercase!")
         
         return value
+
+    def validate_email(self, value):
+        data = self.get_initial()
+
+        email = data.get("email")
+
+        if not email:
+            raise serializers.ValidationError("Enter a valid email address.")
+
+        return value 
 
     def validate_username(self, value):
         data = self.get_initial()
