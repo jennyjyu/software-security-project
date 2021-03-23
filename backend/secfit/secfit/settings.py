@@ -150,8 +150,6 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "users.User"
-<<<<<<< HEAD
-=======
 
 # PASSWORD VALIDATON
 AUTH_PASSWORD_VALIDATORS = [
@@ -172,5 +170,4 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
->>>>>>> 7cfff6da1e27908de60aef7630e1117e5c6abaf8
 DEBUG = True
