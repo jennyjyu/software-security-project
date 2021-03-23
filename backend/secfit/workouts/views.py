@@ -332,7 +332,7 @@ class WorkoutFileDetail(
         & (
             IsOwner
             | IsOwnerOfWorkout
-            | (IsReadOnly & (IsCoachOfWorkoutAndVisibleToCoach | IsWorkoutPublic))
+            | ((IsCoachOfWorkoutAndVisibleToCoach | IsWorkoutPublic))
         )
     ]
 
