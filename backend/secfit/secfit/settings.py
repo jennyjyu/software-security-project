@@ -47,6 +47,34 @@ ALLOWED_HOSTS = [
     "10.0.2.2",
 ]
 
+# PASSWORD VALIDATON
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 12,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {   
+        'NAME': 'secfit.validators.PasswordNumberValidator',
+    },
+    {   
+        'NAME': 'secfit.validators.PasswordUppdercaseValidator',
+    },
+    {   
+        'NAME': 'secfit.validators.PasswordLowercaseValidator',
+    },
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -150,24 +178,5 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "users.User"
-
-# PASSWORD VALIDATON
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': 12,
-        }
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 DEBUG = True
