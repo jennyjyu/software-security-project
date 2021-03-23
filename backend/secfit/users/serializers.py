@@ -34,29 +34,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         user = User(username=username)
 
-        no_upper = True
-        no_lower = True
-
-        for i in password:
-            if i.isupper():
-                no_upper = False
-                break
-
-        for i in password:
-            if i.islower():
-                no_lower = False
-                break
-            
         try:
             password_validation.validate_password(password, user=user)
         except forms.ValidationError as error:
             raise serializers.ValidationError(error.messages)
         if password != password1:
             raise serializers.ValidationError("Passwords must match!")
-        if no_upper:
-            raise serializers.ValidationError("Passwords must contain at least on characher that is uppercase!")
-        if no_lower:
-            raise serializers.ValidationError("Passwords must contain at least on characher that is lowercase!")
         
         return value
 
