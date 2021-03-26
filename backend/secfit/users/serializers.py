@@ -28,18 +28,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     def validate_password1(self, value):
         data = self.get_initial()
 
-<<<<<<< HEAD
-        password = data.get("password")
-        password1 = data.get("password1")
-        
-=======
         password = data.get("password1")
         password1 = data.get("password2")
         username = data.get("username") 
 
         user = User(username=username)
 
->>>>>>> e9f595d4961b740c54efb6bf41fb72dce33564d2
         try:
             password_validation.validate_password(password, user=user)
         except forms.ValidationError as error:
