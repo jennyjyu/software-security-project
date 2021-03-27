@@ -356,8 +356,6 @@ class TwoFactorView(TokenObtainPairView):
 
 class TwoFactorGeneratorView(APIView):
     def get(self, format=None):
-        print("start")
-
         username = str(self.request.user)
         response = {}
 
@@ -373,8 +371,6 @@ class TwoFactorGeneratorView(APIView):
                     status=status.HTTP_200_OK,
                 )
         else:
-            print("finnes")
-
             url = authenticator.generate_url(username, authenticator.get_secret(username))
 
             response["message"] = "2FA is already activated for this account."

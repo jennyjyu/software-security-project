@@ -59,7 +59,6 @@ def get_secret(username):
 
 def add_2fa(username):
 	key = ''.join(random.choice(string.ascii_uppercase) for i in range(16)) #https://www.educative.io/edpresso/how-to-generate-a-random-string-in-python
-	print("TEST KEY", key)
 	# need to update the existing file, not overwrite
 	rel = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 	with open(os.path.join(rel,'secrets.json'), 'r') as json_file:
