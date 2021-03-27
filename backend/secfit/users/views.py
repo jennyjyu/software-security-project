@@ -37,7 +37,6 @@ class UserList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericA
     serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
-        self.serializer_class = UserGetSerializer
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):

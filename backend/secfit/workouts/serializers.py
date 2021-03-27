@@ -1,8 +1,12 @@
 """Serializers for the workouts application
 """
-from rest_framework import serializers
+from rest_framework import serializers, status, exceptions
 from rest_framework.serializers import HyperlinkedRelatedField
 from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile, RememberMe
+import users.authentication.authenticator as authenticator
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+import json
+from rest_framework.response import Response
 
 
 class ExerciseInstanceSerializer(serializers.HyperlinkedModelSerializer):
@@ -229,3 +233,24 @@ class RememberMeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RememberMe
         fields = ["remember_me"]
+
+
+
+class TwoFactorSerializer(TokenObtainPairSerializer):
+     def validate(self, attrs):
+        try:
+            request = self.context["request"]
+        except KeyError:
+            pass
+        else:
+            request_data = request.data
+            username = request_data["username"]
+            otp_input = request_data.get("otp_input")
+            
+            if authenticator.has_2fa(username):
+                if authenticator.validate_input(username, otp_input):
+                    return super().validate(attrs)
+                else:
+                    raise exceptions.AuthenticationFailed("Incorrect one-time passworrd")
+            else:
+                return super().validate(attrs)
