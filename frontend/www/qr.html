@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script type="text/javascript"></script>
+    <title>QR Generator</title>
+  </head>
+  <link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+  crossorigin="anonymous"
+/>
+
+<script
+  src="https://kit.fontawesome.com/0ce6c392ca.js"
+  crossorigin="anonymous"
+></script>
+<link rel="stylesheet" href="styles/style.css" />
+<script src="scripts/navbar.js" type="text/javascript" defer></script>
+</head>
+<body>
+<navbar-el></navbar-el>
+    <div class="container">
+        <div class="card mt-3 border-0">
+            <!-- card.// -->
+            <article class="card-body mx-auto">
+            <h4 class="card-title mt-3 text-left">
+                Scan QR-code to activate Two Factor Authentication
+            </h4>
+        <body>
+        <!-- <input id="text" type="text" value="x" style="width: 80%" /><br /> -->
+        <div id="qrcode"></div>
+        <!-- <script src=scripts/qr.js type="text/javascript">
+            new QRCode(
+            document.getElementById("qrcode"),
+            "http://jindo.dev.naver.com/collie"
+            );
+        </script> -->
+            </article>
+        </div>
+    <!-- card.// -->
+    </div>  
+
+<script src="scripts/qrcode.js"></script>
+<script src="scripts/qr.js"></script>
+</body>
+
+</html>
