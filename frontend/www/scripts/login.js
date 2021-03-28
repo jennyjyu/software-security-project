@@ -4,7 +4,7 @@ async function login() {
   let body = {
     username: formData.get("username"),
     password: formData.get("password"),
-    onetimepassword: formData.get("onetimepassword"),
+    otp_input: formData.get("otp_input"),
   };
 
   let response = await sendRequest("POST", `${HOST}/api/token/`, body);

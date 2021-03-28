@@ -26,25 +26,29 @@
         <div class="card mt-3 border-0">
             <!-- card.// -->
             <article class="card-body mx-auto">
-            <h4 class="card-title mt-3 text-left">
-                Scan QR-code to activate Two Factor Authentication
+            <h4 class="card-title mt-3 text-left" >
+                Scan QR-code to add this account to Google Authenticator
             </h4>
         <body>
-        <!-- <input id="text" type="text" value="x" style="width: 80%" /><br /> -->
-        <div id="qrcode"></div>
-        <!-- <script src=scripts/qr.js type="text/javascript">
-            new QRCode(
-            document.getElementById("qrcode"),
-            "http://jindo.dev.naver.com/collie"
-            );
-        </script> -->
+          <div class="d-grid">
+            <br/>
+            <input type="button" class="btn btn-primary" id="btn-qr" value=" Generate QR-code  ">
+            <br/>
+            <div class="card mt-3 border-0" id="message-box" style="margin-left: auto; margin-right: auto;">
+            </div>
+            <br/>
+            <div id="qrcode" style="padding-left: auto; padding-right: auto;"></div>
+        </div> <!-- form-group// -->
             </article>
         </div>
     <!-- card.// -->
     </div>  
+    
 
 <script src="scripts/qrcode.js"></script>
 <script src="scripts/qr.js"></script>
+<script src="scripts/scripts.js"></script>
+<script src="scripts/defaults.js"></script>
 </body>
 
 </html>

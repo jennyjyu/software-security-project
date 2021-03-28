@@ -251,6 +251,6 @@ class TwoFactorSerializer(TokenObtainPairSerializer):
                 if authenticator.validate_input(username, otp_input):
                     return super().validate(attrs)
                 else:
-                    raise exceptions.AuthenticationFailed("Incorrect one-time passworrd")
+                    raise exceptions.AuthenticationFailed("Incorrect one-time password")
             else:
                 return super().validate(attrs)

@@ -362,8 +362,9 @@ class TwoFactorGeneratorView(APIView):
         if not authenticator.has_2fa(username):
             authenticator.add_2fa(username)
             url = authenticator.generate_url(username, authenticator.get_secret(username))
-            
-            response["message"] = "2FA is now activated!"
+        
+            response["already_active"] = False
+            response["message"] = "2FA is now activated! \nHere is your QR code:"
             response["url"]= url
 
             return Response(
@@ -373,7 +374,8 @@ class TwoFactorGeneratorView(APIView):
         else:
             url = authenticator.generate_url(username, authenticator.get_secret(username))
 
-            response["message"] = "2FA is already activated for this account."
+            response["already_active"] = True
+            response["message"] = "2FA is already activated for this account, \nbut here is your QR code in case you forgot:"
             response["url"]= url
 
             return Response(
