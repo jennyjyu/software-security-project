@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.db import models
 from django.contrib.auth import get_user_model
 from workouts.models import Workout
+from django_bleach.models import BleachField
 
 # Create your models here.
 class Comment(models.Model):
@@ -25,7 +26,7 @@ class Comment(models.Model):
     workout = models.ForeignKey(
         Workout, on_delete=models.CASCADE, related_name="comments"
     )
-    content = models.TextField()
+    content = BleachField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:

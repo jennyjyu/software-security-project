@@ -25,8 +25,6 @@ class CommentList(
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        escaped = escape(request.data["content"])
-        request.data["content"] = escaped
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
