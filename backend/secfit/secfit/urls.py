@@ -31,7 +31,7 @@ from secfit import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("workouts.urls")),
-    url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], views.MediaDetail.as_view(), {'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], views.MediaDetail.as_view(), {'document_root': settings.MEDIA_ROOT}),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
