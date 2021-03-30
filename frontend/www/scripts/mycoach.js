@@ -46,12 +46,6 @@ async function displayOffers() {
       let acceptButton = buttons[0];
       let declineButton = buttons[1];
 
-      // This code block fixes some CORS issues when enabling HTTPS
-      let host = `${HOST}`;
-      if (host.includes("https")) {
-        offer.url = "https" + offer.url.substring(4);
-      }
-
       //acceptButton.id = `btn-accept-${offer.id}`;
       acceptButton.addEventListener(
         "click",
