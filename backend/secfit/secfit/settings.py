@@ -47,6 +47,34 @@ ALLOWED_HOSTS = [
     "10.0.2.2",
 ]
 
+# PASSWORD VALIDATON
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 12,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {   
+        'NAME': 'secfit.validators.PasswordNumberValidator',
+    },
+    {   
+        'NAME': 'secfit.validators.PasswordUppdercaseValidator',
+    },
+    {   
+        'NAME': 'secfit.validators.PasswordLowercaseValidator',
+    },
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,7 +106,7 @@ ROOT_URLCONF = "secfit.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'users' / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -111,9 +139,9 @@ if is_prod:
 
 
 # CORS Policy
-CORS_ORIGIN_ALLOW_ALL = (
-    True
-)
+CORS_ORIGIN_WHITELIST = [
+    'https://localhost:9090'
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -151,4 +179,9 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = "users.User"
 
-DEBUG = True
+DEBUG = False
+
+SECURE_PROXY_SSL_HEADER =  ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

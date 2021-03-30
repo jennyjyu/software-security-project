@@ -62,3 +62,8 @@
 .link-block {
   display: block;
 }
+
+#qrcode {
+  display: center;
+  text-align: center;
+}

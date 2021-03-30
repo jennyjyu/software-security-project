@@ -46,6 +46,12 @@ async function displayOffers() {
       let acceptButton = buttons[0];
       let declineButton = buttons[1];
 
+      // This code block fixes some CORS issues when enabling HTTPS
+      let host = `${HOST}`;
+      if (host.includes("https")) {
+        offer.url = "https" + offer.url.substring(4);
+      }
+
       //acceptButton.id = `btn-accept-${offer.id}`;
       acceptButton.addEventListener(
         "click",
@@ -66,6 +72,12 @@ async function displayOffers() {
       p.innerText = "You currently have no offers.";
       offersDiv.append(p);
     }
+  }
+  if (offers.results.length == 0) {
+    let offersDiv = document.querySelector("#offers-div");
+    let p = document.createElement("p");
+    p.innerText = "You currently have no offers.";
+    offersDiv.append(p);
   }
 }
 

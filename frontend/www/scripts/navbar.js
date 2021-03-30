@@ -1,10 +1,10 @@
 class NavBar extends HTMLElement {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    connectedCallback() {
-        this.innerHTML = `
+  connectedCallback() {
+    this.innerHTML = `
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold ms-5 me-3" href="#">SecFit</a>
@@ -20,6 +20,7 @@ class NavBar extends HTMLElement {
                 <a class="nav-link hide" id="nav-myathletes" href="myathletes.html">Athletes</a>
                 <hr>
             </div>
+            <a class="nav-link hide" id="nav-2fa" href="2fa.html">Activate 2FA</a>
             <div class="my-2 my-lg-0 me-5">
                 <a role="button" class="btn btn-primary hide" id="btn-register" href="register.html">Register</a>
                 <a role="button" class="btn btn-secondary hide" id="btn-login-nav" href="login.html">Log in</a>
@@ -29,9 +30,7 @@ class NavBar extends HTMLElement {
         </div>
         </nav>
         `;
-
-        
-    }
+  }
 }
 
-customElements.define('navbar-el', NavBar);
+customElements.define("navbar-el", NavBar);

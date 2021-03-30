@@ -21,17 +21,20 @@ from django.views.static import serve
 from django.conf.urls import include, url
 from django.contrib.auth.decorators import login_required
 from secfit import views
+from django.contrib.auth import views as auth_views
+from django.views.generic.base import RedirectView
+import os
 
-
-#@login_required
-#def protected_serve(request, path, document_root=None, show_indexes=False):
-    #return serve(request, path, document_root, show_indexes)
-    #return HttpResponse(status=200)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("workouts.urls")),
     re_path(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], views.MediaDetail.as_view(), {'document_root': settings.MEDIA_ROOT}),
+    # Redirect to login page after reset password.
+    path('accounts/login/', RedirectView.as_view(url='https://localhost:'+str(os.environ.get('GROUPID', '90'))+str(os.environ.get('PORTPREFIX', '90'))+'/login.html')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    # https://docs.djangoproject.com/en/3.1/topics/auth/default/
+    # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

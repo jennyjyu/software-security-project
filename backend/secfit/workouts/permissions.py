@@ -107,3 +107,19 @@ class mediaPermissionAccess(permissions.BasePermission):
                     | Q(athlete=request.user)
             ).distinct()
         return qs
+
+class IsCoachOfReferencedWorkoutAndVisibleToCoach(permissions.BasePermission):
+    """Checks whether the requesting user is the referenced workout's owner's coach
+    and whether the referenced workout has a visibility of Public or Coach.
+    """
+
+    def has_permission(self, request, view):
+        if request.method == "POST":
+            if request.data.get("workout"):
+                workout_id = request.data["workout"].split("/")[-2]
+                workout = Workout.objects.get(pk=workout_id)
+                if workout:
+                    return workout.owner.coach == request.user and (
+                           workout.visibility == "PU" or workout.visibility == "CO")
+            return False
+        return True

@@ -1,8 +1,9 @@
 """Contains views for the workouts application. These are mostly class-based views.
 """
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, status
+from rest_framework.views import APIView
 from rest_framework import permissions
-
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.parsers import (
     JSONParser,
 )
@@ -23,7 +24,11 @@ from workouts.permissions import (
 )
 from workouts.mixins import CreateListModelMixin
 from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile
-from workouts.serializers import WorkoutSerializer, ExerciseSerializer
+from workouts.serializers import (
+    WorkoutSerializer, 
+    ExerciseSerializer, 
+    TwoFactorSerializer, 
+    )
 from workouts.serializers import RememberMeSerializer
 from workouts.serializers import ExerciseInstanceSerializer, WorkoutFileSerializer
 from django.core.exceptions import PermissionDenied
@@ -32,7 +37,7 @@ from rest_framework.response import Response
 import json
 from collections import namedtuple
 import base64, pickle
-from django.core.signing import Signer
+import users.authentication.authenticator as authenticator
 
 
 @api_view(["GET"])
@@ -343,4 +348,36 @@ class WorkoutFileDetail(
         return self.destroy(request, *args, **kwargs)
     
   
-    
+class TwoFactorView(TokenObtainPairView):
+    serializer_class = TwoFactorSerializer
+
+
+
+class TwoFactorGeneratorView(APIView):
+    def get(self, format=None):
+        username = str(self.request.user)
+        response = {}
+
+        if not authenticator.has_2fa(username):
+            authenticator.add_2fa(username)
+            url = authenticator.generate_url(username, authenticator.get_secret(username))
+        
+            response["already_active"] = False
+            response["message"] = "2FA is now activated! \nHere is your QR code:"
+            response["url"]= url
+
+            return Response(
+                    response,
+                    status=status.HTTP_200_OK,
+                )
+        else:
+            url = authenticator.generate_url(username, authenticator.get_secret(username))
+
+            response["already_active"] = True
+            response["message"] = "2FA is already activated for this account, \nbut here is your QR code in case you forgot:"
+            response["url"]= url
+
+            return Response(
+                response,
+                status=status.HTTP_200_OK,
+            )
