@@ -1,4 +1,5 @@
 async function fetchWorkouts(ordering) {
+
     let response = await sendRequest("GET", `${HOST}/api/workouts/?ordering=${ordering}`);
 
     if (!response.ok) {
@@ -53,7 +54,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     } 
 
     let currentSort = document.querySelector("#current-sort");
-    currentSort.innerHTML = (ordering.startsWith("-") ? "Descending" : "Ascending") + " " + ordering.replace("-", "");
+    currentSort.innerHTML = (ordering.startsWith("-") ? "Descending" : "Ascending") + " " + ordering.replace(/[<>%&=~"-.*+?^${}()|[\]\\]/g, "");
 
     let currentUser = await getCurrentUser();
     // grab username

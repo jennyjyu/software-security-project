@@ -2,6 +2,11 @@
 """
 from rest_framework import permissions
 from workouts.models import Workout
+from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile
+from django.db.models import Q
+from users.models import Offer, AthleteFile
+
+
 
 
 class IsOwner(permissions.BasePermission):
@@ -70,3 +75,51 @@ class IsReadOnly(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return request.method in permissions.SAFE_METHODS
+
+class mediaPermissionAccess(permissions.BasePermission):
+    def has_permission(self, request, view):
+        """A workoutfile should be visible to the requesting user if any of the following hold:
+            - The file is on a public visibility workout
+            - The file was written by the user
+            - The file is on a coach visibility workout and the user is the workout owner's coach
+            - The file is on a workout owned by the user
+            """
+        path = view.kwargs["path"].split("/")
+        qs = False
+        # Check if the file is a workout file
+        if path[0] in "workouts":
+            print('inne i IF')
+            qs = WorkoutFile.objects.filter(
+                    Q(owner=request.user)
+                    | Q(workout__owner=request.user)
+                    | (
+                        Q(workout__visibility="CO")
+                        & Q(workout__owner__coach=request.user)
+                    )
+                    | Q(workout__visibility="PU")
+                
+            ).distinct()
+            print('qs after if',qs)
+        # Check if the file is a athelete or coach file
+        elif path[0] in "users":
+            qs = AthleteFile.objects.filter(
+                    Q(owner=request.user) 
+                    | Q(athlete=request.user)
+            ).distinct()
+        return qs
+
+class IsCoachOfReferencedWorkoutAndVisibleToCoach(permissions.BasePermission):
+    """Checks whether the requesting user is the referenced workout's owner's coach
+    and whether the referenced workout has a visibility of Public or Coach.
+    """
+
+    def has_permission(self, request, view):
+        if request.method == "POST":
+            if request.data.get("workout"):
+                workout_id = request.data["workout"].split("/")[-2]
+                workout = Workout.objects.get(pk=workout_id)
+                if workout:
+                    return workout.owner.coach == request.user and (
+                           workout.visibility == "PU" or workout.visibility == "CO")
+            return False
+        return True

@@ -14,14 +14,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import *
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve 
+from django.conf.urls import include, url
+from django.contrib.auth.decorators import login_required
+from secfit import views
+from django.contrib.auth import views as auth_views
+from django.views.generic.base import RedirectView
+import os
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("workouts.urls")),
+    re_path(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], views.MediaDetail.as_view(), {'document_root': settings.MEDIA_ROOT}),
+    # Redirect to login page after reset password.
+    path('accounts/login/', RedirectView.as_view(url='https://localhost:'+str(os.environ.get('GROUPID', '90'))+str(os.environ.get('PORTPREFIX', '90'))+'/login.html')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    # https://docs.djangoproject.com/en/3.1/topics/auth/default/
+    # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

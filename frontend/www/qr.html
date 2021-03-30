@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script type="text/javascript"></script>
+    <title>QR Generator</title>
+  </head>
+  <link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+  crossorigin="anonymous"
+/>
+
+<script
+  src="https://kit.fontawesome.com/0ce6c392ca.js"
+  crossorigin="anonymous"
+></script>
+<link rel="stylesheet" href="styles/style.css" />
+<script src="scripts/navbar.js" type="text/javascript" defer></script>
+</head>
+<body>
+<navbar-el></navbar-el>
+    <div class="container">
+        <div class="card mt-3 border-0">
+            <!-- card.// -->
+            <article class="card-body mx-auto">
+            <h4 class="card-title mt-3 text-left" >
+                Scan QR-code to add this account to Google Authenticator
+            </h4>
+        <body>
+          <div class="d-grid">
+            <br/>
+            <input type="button" class="btn btn-primary" id="btn-qr" value=" Generate QR-code  ">
+            <br/>
+            <div class="card mt-3 border-0" id="message-box" style="margin-left: auto; margin-right: auto;">
+            </div>
+            <br/>
+            <div id="qrcode" style="padding-left: auto; padding-right: auto;"></div>
+        </div> <!-- form-group// -->
+            </article>
+        </div>
+    <!-- card.// -->
+    </div>  
+    
+
+<script src="scripts/qrcode.js"></script>
+<script src="scripts/qr.js"></script>
+<script src="scripts/scripts.js"></script>
+<script src="scripts/defaults.js"></script>
+</body>
+
+</html>

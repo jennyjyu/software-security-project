@@ -7,3 +7,5 @@ ENV PORT_PREFIX=${PORT_PREFIX}
 
 # Copy nginx config to the container
 COPY nginx.conf /etc/nginx/nginx.conf
+# Copy ssl files to docker container
+COPY ssl/* /etc/ssl/
