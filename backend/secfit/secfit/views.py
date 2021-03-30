@@ -20,6 +20,7 @@ from workouts.permissions import (
     IsReadOnly,
     IsPublic,
     IsWorkoutPublic,
+    mediaPermissionAccess
 )
 from workouts.mixins import CreateListModelMixin
 from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile
@@ -38,14 +39,7 @@ from django.views.static import serve
 class MediaDetail(
     generics.GenericAPIView,
 ):
-    permission_classes = [
-        permissions.IsAuthenticated
-        & (
-            IsOwner
-            | IsOwnerOfWorkout
-            | ((IsCoachOfWorkoutAndVisibleToCoach | IsWorkoutPublic))
-        )
-    ]
+    permission_classes = [permissions.IsAuthenticated & mediaPermissionAccess]
 
     def get(self, request, path, document_root, *args, **kwargs):
         return self.protected_serve(request, path, document_root)
