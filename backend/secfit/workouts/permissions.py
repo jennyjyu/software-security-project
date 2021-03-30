@@ -88,8 +88,9 @@ class mediaPermissionAccess(permissions.BasePermission):
         qs = False
         # Check if the file is a workout file
         if path[0] in "workouts":
-            print('inne i IF')
             qs = WorkoutFile.objects.filter(
+                Q(workout=int(path[1]))
+                & (
                     Q(owner=request.user)
                     | Q(workout__owner=request.user)
                     | (
@@ -97,14 +98,16 @@ class mediaPermissionAccess(permissions.BasePermission):
                         & Q(workout__owner__coach=request.user)
                     )
                     | Q(workout__visibility="PU")
-                
+                )  
             ).distinct()
-            print('qs after if',qs)
         # Check if the file is a athelete or coach file
         elif path[0] in "users":
             qs = AthleteFile.objects.filter(
+                Q(athelete=int(path[1]))
+                & (
                     Q(owner=request.user) 
                     | Q(athlete=request.user)
+                )
             ).distinct()
         return qs
 
